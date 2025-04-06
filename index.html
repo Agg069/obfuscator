@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JSON Obfuscator</title>
 <style>
 body {
 background-color: #111;
 color: #806040;
-width: 95vw;
-height: 95vh;
-margin: 0;
-padding: 0;
 }
-.code {
-background-color: #000;
-color: #205080;
-font-family: Monospace;
+button {
+background-color: #205080;
+color: rgb(255,127.5,63.5);
 }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -24,11 +21,11 @@ font-family: Monospace;
 JSON Obfuscator</h1>
 <h2>Input</h2>
 <h3 id="state"></h3>
-<input class="code" type="file" id="files" multiple />
+<input type="file" id="files" multiple />
 <br /><br />
-<button onclick="main();" class="code">Start</button><br /><br />
+<button onclick="main();">Start</button><br /><br />
 <script>
-t=e=>document.getElementById(e);
+const t=e=>document.getElementById(e);
 t('js').remove();
 async function main(){
 const files = t('files').files;
@@ -41,7 +38,7 @@ const zip = new JSZip();
 for (const file of files) {
 try {
 let txt = await file.text();
-r=(y,j)=>{
+const r=(y,j)=>{
 txt = txt.replaceAll(y,j);
 }
 txt = JSON.stringify(JSON.parse(txt)).replaceAll("true",'♠');
@@ -98,6 +95,7 @@ r("W",'\\u0057');
 r("X",'\\u0058');
 r("Y",'\\u0059');
 r("Z",'\\u005a');
+r('_','\\u005f');
 r("♣",'false');
 r("♠",'true');
 zip.file(file.name,txt);
@@ -107,7 +105,9 @@ continue;
 const content = await zip.generateAsync({ type: 'blob'});
 const link = document.createElement('a');
 link.href = URL.createObjectURL(content);
-link.download = "secureJson.zip";
+link.download = "obfuscatedJSON.zip";
+link.textContent = "Click to download";
+document.body.appendChild(link);
 link.click();
 }
 </script>
