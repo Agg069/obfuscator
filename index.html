@@ -49,13 +49,13 @@ const r=(y,j)=>{
 txt = txt.replaceAll(y,j);
 }
 txt = JSON.stringify(JSON.parse(txt)).replaceAll("true",'♠');
+r("null",'🚫');
 r("false","♣");
 r('u','\\u0075');
 r('A','\\u0041');
 r('B','\\u0042');
 r('C','\\u0043');
 r('D','\\u0044');
-r('E','\\u0045');
 r('F','\\u0046');
 r('G','\\u0047');
 r('H','\\u0048');
@@ -127,6 +127,7 @@ r('|','\\u007C');
 r('~','\\u007E');
 r("♣",'false');
 r("♠",'true');
+r("🚫",'null');
 zip.file(file.webkitRelativePath,txt);
 continue;
 } catch (e) {}
