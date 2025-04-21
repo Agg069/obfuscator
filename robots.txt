@@ -1,4 +1,2 @@
 User-agent: *
-Allow: /
 Disallow:
-Sitemap: https://agg069.github.io/obfuscator/sitemap.xml
