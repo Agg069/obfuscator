@@ -10,137 +10,187 @@
 <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml">
 <title>JSON Folder Obfuscator</title>
 <style>
-body {
-background-color: #111;
-color: #806040;
+
+body{
+background-color:#111;
+color:#806040;
 }
-button {
-background-color: #205080;
-color: rgb(255,127.5,63.5);
+@keyframes hl{
+0%{background-color:#D00;color:#0DD;}
+33.333333%{background-color:#0D0;color:#D0D;}
+66.666666%{background-color:#00D;color:#DD0;}
+99.999999%{background-color:#D00;color:#0DD;}
+}
+@keyframes f{
+0%{top:0;}
+50%{top:25;}
+100%{top:0;}
+}
+@keyframes a{
+0%{color:#D00;}
+33.333333%{color:#0D0;}
+66.666666%{color:#00D;}
+99.999999%{color:#D00;}
+}
+div{
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+button{
+background-color:#Fff;
+position:relative;
+scale:200%;
+width:49.5%;
+max-width:100%;
+animation:hl 2.5s infinite, f 2s infinite;
+}
+#ac,a{
+text-align:center;
+color:#D00;
+animation:a 1s infinite;
 }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
-<h1><div id="js">Enable JavaScript</div>
-JSON Obfuscator</h1>
+<h1><noscript>Enable JavaScript</noscript>
+JSON Folder Obfuscator</h1>
 <h2>Input</h2>
-<h3 id="state"></h3>
+<h3 id="state"></h3><h3>
+<details><summary>Errors</summary><fieldset id="err"></details></h3>
 <input type="file" id="files" multiple webkitdirectory/>
-<br /><br />
-<button onclick="main();">Start</button><br /><br />
-<h2>Why Obfuscate JSON?</h2>
-<p>Obfuscating is like a must. It can protect sensitive data, but it can be reverted. Obfuscating multiple JSON files at a time can be a hassle, to prevent this, i created this obfuscator.</p>
-<script>
+<hr><br><div><button onclick="main();">Start</button>
+</div><br><h3 id="ac"></h3><script>
 const t=e=>document.getElementById(e);
-t('js').remove();
+var txt;
+var prg=0;
 async function main(){
-alert("JSON Obfuscator can cause data loss! Make sure to create a copy of your JSON data");
-const files = t('files').files;
-if (!files.length) {
+const files=t('files').files;
+if(!files.length){
 alert("No file provided!");
 return;
 }
-t('state').textContent = "Working...";
-const zip = new JSZip();
-for (const file of files) {
-try {
-let txt = await file.text();
+const root=files[0].webkitRelativePath.split('/');
+const zip=new JSZip();
 const r=(y,j)=>{
-txt = txt.replaceAll(y,j);
+txt=txt.replaceAll(y,`\\u00${j}`);
 }
-txt = JSON.stringify(JSON.parse(txt)).replaceAll("true",'♠');
-r("null",'🚫');
+for(const file of files){
+if(!file.name.endsWith('.json'))continue;
+try{
+txt=await file.text();
+txt=JSON.stringify(JSON.parse(txt)).replaceAll("true",'♠');
+if((txt.includes('"minecraft:block":{'))||(txt.includes('"minecraft:feature_rules":{'))||(txt.includes('"particle_effect":{'))){
+zip.file(file.webkitRelativePath,file);
+t('err').innerHTML+="<hr>"+`${file.name}: Skipped due to being a Minecraft Bedrock block, particle, or feature rule`.replaceAll('<','&lt;').replaceAll(">",'&gt;');
+continue;
+}
 r("false","♣");
-r('u','\\u0075');
-r('A','\\u0041');
-r('B','\\u0042');
-r('C','\\u0043');
-r('D','\\u0044');
-r('F','\\u0046');
-r('G','\\u0047');
-r('H','\\u0048');
-r('I','\\u0049');
-r('J','\\u004A');
-r('K','\\u004B');
-r('L','\\u004C');
-r('M','\\u004D');
-r('N','\\u004E');
-r('O','\\u004F');
-r('P','\\u0050');
-r('Q','\\u0051');
-r('R','\\u0052');
-r('S','\\u0053');
-r('T','\\u0054');
-r('U','\\u0055');
-r('V','\\u0056');
-r('W','\\u0057');
-r('X','\\u0058');
-r('Y','\\u0059');
-r('Z','\\u005A');
-r('a','\\u0061');
-r('b','\\u0062');
-r('c','\\u0063');
-r('d','\\u0064');
-r('f','\\u0066');
-r('g','\\u0067');
-r('h','\\u0068');
-r('i','\\u0069');
-r('j','\\u006A');
-r('k','\\u006B');
-r('l','\\u006C');
-r('m','\\u006D');
-r('n','\\u006E');
-r('o','\\u006F');
-r('p','\\u0070');
-r('q','\\u0071');
-r('r','\\u0072');
-r('s','\\u0073');
-r('t','\\u0074');
-r('v','\\u0076');
-r('w','\\u0077');
-r('x','\\u0078');
-r('y','\\u0079');
-r('z','\\u007A');
-r(' ','\\u0020');
-r('!','\\u0021');
-r('#','\\u0023');
-r('$','\\u0024');
-r('%','\\u0025');
-r('&','\\u0026');
-r("'","\\u0027");
-r('(','\\u0028');
-r(')','\\u0029');
-r('*','\\u002A');
-r('+','\\u002B');
-r('/','\\u002F');
-r(';','\\u003B');
-r('<','\\u003C');
-r('=','\\u003D');
-r('>','\\u003E');
-r('?','\\u003F');
-r('@','\\u0040');
-r('^','\\u005E');
-r('_','\\u005F');
-r('`','\\u0060');
-r('|','\\u007C');
-r('~','\\u007E');
+r("null",'🚫');
+r("\\n",'🪨');
+r('\\t','⚫');
+r('\\r','➿');
+r('\\b','⚡');
+r('\\f','🧨');
+r('u','75');
+r('A','41');
+r('B','42');
+r('C','43');
+r('D','44');
+r('F','46');
+r('G','47');
+r('H','48');
+r('I','49');
+r('J','4A');
+r('K','4B');
+r('L','4C');
+r('M','4D');
+r('N','4E');
+r('O','4F');
+r('P','50');
+r('Q','51');
+r('R','52');
+r('S','53');
+r('T','54');
+r('U','55');
+r('V','56');
+r('W','57');
+r('X','58');
+r('Y','59');
+r('Z','5A');
+r('a','61');
+r('b','62');
+r('c','63');
+r('d','64');
+r('f','66');
+r('g','67');
+r('h','68');
+r('i','69');
+r('j','6A');
+r('k','6B');
+r('l','6C');
+r('m','6D');
+r('n','6E');
+r('o','6F');
+r('p','70');
+r('q','71');
+r('r','72');
+r('s','73');
+r('t','74');
+r('v','76');
+r('w','77');
+r('x','78');
+r('y','79');
+r('z','7A');
+r('!','21');
+r('#','23');
+r('$','24');
+r('%','25');
+r('&','26');
+r("'","27");
+r('(','28');
+r(')','29');
+r('*','2A');
+r('+','2B');
+r('/','2F');
+r(';','3B');
+r('<','3C');
+r('=','3D');
+r('>','3E');
+r('?','3F');
+r('@','40');
+r('^','5E');
+r('_','5F');
+r('`','60');
+r('|','7C');
+r('~','7E');
+r("🪨",'\\n');
+r('⚫',"\\t");
+r('➿','\\r');
+r("⚡",'\\b');
+r('🧨','\\f');
+r("🚫",'null');
 r("♣",'false');
 r("♠",'true');
-r("🚫",'null');
 zip.file(file.webkitRelativePath,txt);
-continue;
-} catch (e) {}
+prg++;
+t('state').textContent=`${prg} done`;
+}catch(e){
+t('err').innerHTML+="<hr>"+`${file.name}: ${e}`.replaceAll('<','&lt;').replaceAll(">",'&gt;');
 }
-const content = await zip.generateAsync({ type: 'blob'});
-const link = document.createElement('a');
-link.href = URL.createObjectURL(content);
-link.download = "obfuscatedJSON.zip";
-link.textContent = "Click to download";
-document.body.appendChild(link);
+}
+const blob=await zip.generateAsync({type:'blob'});
+const link=document.createElement('a');
+link.href=URL.createObjectURL(blob);
+link.download=root[0]+"-Obfuscated.zip";
+link.textContent="Click to download";
+link.target='_blank';
+t('ac').appendChild(link);
 link.click();
-t('state').textContent = "Success";
-}
+t('state').textContent="Success";
+setTimeout(()=>t('ac').removeChild(link),9999);                                                                                                       }
 </script>
 </body>
 </html>
