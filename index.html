@@ -16,42 +16,40 @@ color:#806040;
 }
 @keyframes hl{
 0%{background-color:#D00;color:#0DD;}
-33%{background-color:#0D0;color:#D0D;}
-66%{background-color:#00D;color:#DD0;}
-100%{background-color:#D00;color:#0DD;}
+33.333333%{background-color:#0D0;color:#D0D;}
+66.666666%{background-color:#00D;color:#DD0;}
+99.999999%{background-color:#D00;color:#0DD;}
 }
 @keyframes f{
-0%{top:0;}
-50%{top:25;}
-100%{top:0;}
+0%{transform:translateY(0);}
+50%{transform:translateY(10px);}
+100%{transform:translateY(0);}
 }
 @keyframes a{
 0%{color:#D00;}
-33%{color:#0D0;}
-66%{color:#00D;}
-100%{color:#D00;}
+33.333333%{color:#0D0;}
+66.666666%{color:#00D;}
+99.999999%{color:#D00;}
 }
 div{
 display:flex;
-position:relative;
 justify-content:center;
 align-items:center;
 text-align:center;
 }
 button{
-background-color:#FFF;
+background-color:#Fff;
 position:relative;
 scale:200%;
 width:49.5%;
 max-width:100%;
-animation:hl 2.5s infinite, f 2s infinite;
+animation:hl 2.5s infinite, f 2s ease-in-out infinite;
 }
 #ac,a{
 text-align:center;
 color:#D00;
 animation:a 1s infinite;
-}
-</style>
+}</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
