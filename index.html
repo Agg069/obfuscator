@@ -116,6 +116,7 @@ for(const file of files){
 if(!file.name.endsWith('.json'))continue;
 try{
 txt=await file.text();
+txt=txt.replace(/\/\/.*$/gm,'').replace(/\/\*[\s\S]*?\*\//g, '').trim();
 txt=JSON.stringify(JSON.parse(txt)).replaceAll("true",'♠');
 if((txt.includes('"minecraft:block":{'))||(txt.includes('"minecraft:feature_rules":{'))||(txt.includes('"particle_effect":{'))){
 zip.file(file.webkitRelativePath,file);
