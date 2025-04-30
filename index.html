@@ -112,6 +112,9 @@ const zip=new JSZip();
 const r=(y,j)=>{
 txt=txt.replaceAll(y,`\\u00${j}`);
 }
+const syl=(y,j)=>{
+txt=txt.replaceAll(y,j);
+}
 for(const file of files){
 if(!file.name.endsWith('.json'))continue;
 try{
@@ -123,13 +126,13 @@ zip.file(file.webkitRelativePath,file);
 t('err').innerHTML+="<hr>"+`${file.name}: Skipped due to being a Minecraft Bedrock block, particle, or feature rule`.replaceAll('<','&lt;').replaceAll(">",'&gt;');
 continue;
 }
-r("false","♣");
-r("null",'🚫');
-r("\\n",'🪨');
-r('\\t','⚫');
-r('\\r','➿');
-r('\\b','⚡');
-r('\\f','🧨');
+syl("false","♣");
+syl("null",'🚫');
+syl("\\n",'🪨');
+syl('\\t','⚫');
+syl('\\r','➿');
+syl('\\b','⚡');
+syl('\\f','🧨');
 r('u','75');
 r('A','41');
 r('B','42');
@@ -202,14 +205,14 @@ r('_','5F');
 r('`','60');
 r('|','7C');
 r('~','7E');
-r("🪨",'\\n');
-r('⚫',"\\t");
-r('➿','\\r');
-r("⚡",'\\b');
-r('🧨','\\f');
-r("🚫",'null');
-r("♣",'false');
-r("♠",'true');
+syl("🪨",'\\n');
+syl('⚫',"\\t");
+syl('➿','\\r');
+syl("⚡",'\\b');
+syl('🧨','\\f');
+syl("🚫",'null');
+syl("♣",'false');
+syl("♠",'true');
 zip.file(file.webkitRelativePath,txt);
 prg++;
 t('state').textContent=`${prg} done`;
